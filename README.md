@@ -417,9 +417,3 @@ apontando para `10.77.0.10:8000`, e o Nginx continua publicando na porta 80.
 - `sudo` restrito para operadores (somente serviços `citizentech-*`), validado com `visudo -c`.
 - Firewall `ufw` em VM/Azure: entrada bloqueada exceto 22 e 80.
 - Somente **dados simulados** na aplicação (nenhum dado pessoal real).
-
-## Uso de IA
-
-Usamos o Claude (Claude Code) como copiloto, conforme permitido no combinado da GS. Em
-[`prompts.md`](prompts.md) estão a linha do tempo das interações, os problemas que os testes
-revelaram e como foram corrigidos, e a checklist de conceitos que cada integrante deve saber explicar.
