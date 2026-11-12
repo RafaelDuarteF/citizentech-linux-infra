@@ -420,5 +420,6 @@ apontando para `10.77.0.10:8000`, e o Nginx continua publicando na porta 80.
 
 ## Uso de IA
 
-Ferramentas de IA foram usadas como copiloto; os prompts estão registrados em [`prompts.md`](prompts.md)
-e todos os integrantes revisaram e sabem explicar cada script.
+Usamos o Claude (Claude Code) como copiloto, conforme permitido no combinado da GS. Em
+[`prompts.md`](prompts.md) estão a linha do tempo das interações, os problemas que os testes
+revelaram e como foram corrigidos, e a checklist de conceitos que cada integrante deve saber explicar.
