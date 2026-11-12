@@ -1,0 +1,40 @@
+# =============================================================================
+# CitizenTech - Serviço de monitoramento (CPU, memória RAM, disco e aplicação)
+# Template: os campos delimitados por '@' são preenchidos por 03-provision-monitoring.sh
+#
+# Tolerância a falhas em 3 camadas:
+#   1. Restart=always      -> se o processo morrer (crash, kill -9), o systemd
+#                             reinicia em 5s
+#   2. StartLimitBurst     -> se entrar em loop de falhas (5 em 2 min), o
+#                             systemd para de tentar e marca 'failed'
+#   3. Watchdog (timer)    -> citizentech-healthcheck.timer detecta o serviço
+#                             parado/failed/travado e o recupera
+# =============================================================================
+[Unit]
+Description=CitizenTech - Monitoramento de CPU, memoria e disco
+After=network.target citizentech-network.service
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStartPre=-+@CT_HOME@/bin/service-event.sh start %n
+ExecStart=@CT_HOME@/bin/monitor.sh --daemon
+ExecStopPost=-+@CT_HOME@/bin/service-event.sh stop %n
+Restart=always
+RestartSec=5
+TimeoutStopSec=15
+# Prioridade reduzida: o monitor não deve competir com a aplicação
+Nice=10
+SyslogIdentifier=citizentech-monitor
+
+# Endurecimento de segurança
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelModules=yes
+ReadWritePaths=@CT_LOG_DIR@ @CT_STATE_DIR@
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,18 @@
+# =============================================================================
+# CitizenTech - Rede interna de serviços
+# Cria a interface @CT_SVC_IFACE@ com IP fixo @CT_SVC_IP@/@CT_SVC_PREFIX@ a cada boot.
+# Template: os campos delimitados por '@' são preenchidos por 01-provision-infra.sh
+# =============================================================================
+[Unit]
+Description=CitizenTech - Rede interna de servicos (@CT_SVC_IFACE@ @CT_SVC_IP@/@CT_SVC_PREFIX@)
+After=network.target
+Before=citizentech-app.service nginx.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=@CT_HOME@/bin/ct-network.sh up
+ExecStop=@CT_HOME@/bin/ct-network.sh down
+
+[Install]
+WantedBy=multi-user.target

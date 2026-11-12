@@ -1,0 +1,174 @@
+
+### audit.log (últimas linhas)
+$ tail -n 25 /var/log/citizentech/audit.log
+2026-11-12T00:55:22-0300 | run=falha-005522 | host=citizentech-srv | user=root | script=falha-controlada.sh | acao=fim | resultado=FAIL | detalhe=exit=1 duracao=0s
+2026-11-12T00:55:22-0300 | run=20261112-005522-4737 | host=citizentech-srv | user=root | script=monitor | acao=monitor-config | resultado=FAIL | detalhe=configuração inválida em /etc/citizentech/citizentech.conf
+2026-11-12T00:55:22-0300 | run=20261112-005238-2984 | host=citizentech-srv | user=root | script=fault-tests.sh | acao=teste-script-error | resultado=OK | detalhe=falhas registradas em errors.log, audit.log e journald (run=falha-005522)
+2026-11-12T00:55:22-0300 | run=20261112-005238-2984 | host=citizentech-srv | user=root | script=fault-tests.sh | acao=fim | resultado=OK | detalhe=duracao=164s
+2026-11-12T00:55:22-0300 | run=20261112-005522-4785 | host=citizentech-srv | user=root | script=fault-tests.sh | acao=inicio | resultado=OK | detalhe=Testes de falha: crash-loop
+2026-11-12T00:55:22-0300 | run=20261112-005522-4815 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:27-0300 | run=20261112-005527-4851 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=1
+2026-11-12T00:55:27-0300 | run=20261112-005527-4882 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=4882 intervalo=15s
+2026-11-12T00:55:28-0300 | run=20261112-005528-4918 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:34-0300 | run=20261112-005534-4954 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=2
+2026-11-12T00:55:34-0300 | run=20261112-005534-4985 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=4985 intervalo=15s
+2026-11-12T00:55:34-0300 | run=20261112-005534-5021 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:39-0300 | run=20261112-005539-5078 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=3
+2026-11-12T00:55:40-0300 | run=20261112-005539-5113 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=5113 intervalo=15s
+2026-11-12T00:55:40-0300 | run=20261112-005540-5148 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:46-0300 | run=20261112-005546-5195 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=4
+2026-11-12T00:55:46-0300 | run=20261112-005546-5228 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=5228 intervalo=15s
+2026-11-12T00:55:47-0300 | run=20261112-005547-5263 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:52-0300 | run=20261112-005537-5052 | host=citizentech-srv | user=root | script=healthcheck | acao=falha-detectada | resultado=FAIL | detalhe=servico=citizentech-monitor.service estado=activating
+2026-11-12T00:56:08-0300 | run=20261112-005608-5400 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=0
+2026-11-12T00:56:08-0300 | run=20261112-005537-5052 | host=citizentech-srv | user=root | script=healthcheck | acao=recuperacao | resultado=OK | detalhe=servico=citizentech-monitor.service estado_anterior=activating tentativas=2
+2026-11-12T00:56:08-0300 | run=20261112-005608-5432 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=5432 intervalo=15s
+2026-11-12T00:56:09-0300 | run=20261112-005522-4785 | host=citizentech-srv | user=root | script=fault-tests.sh | acao=teste-crash-loop | resultado=OK | detalhe=5 falhas seguidas -> systemd marcou failed -> watchdog recuperou em 9s
+2026-11-12T00:56:09-0300 | run=20261112-005522-4785 | host=citizentech-srv | user=root | script=fault-tests.sh | acao=fim | resultado=OK | detalhe=duracao=47s
+2026-11-12T00:56:09-0300 | run=20261112-005609-5538 | host=citizentech-srv | user=root | script=collect-evidence.sh | acao=inicio | resultado=OK | detalhe=Coleta de evidências
+
+### alerts.log (últimas linhas)
+$ tail -n 25 /var/log/citizentech/alerts.log
+2026-11-12T00:53:00-0300 [CRIT] host=citizentech-srv recurso=aplicacao valor=DOWN limite_aviso=- limite_critico=DOWN detalhe="health=http://10.77.0.10:8000/health"
+2026-11-12T00:53:13-0300 [CRIT] host=citizentech-srv recurso=cpu valor=100% limite_aviso=70% limite_critico=90% detalhe="load=2.50 top: stress-ng-cpu(pid 3575, 102%), stress-ng-cpu(pid 3576, 102%), stress-ng-cpu(pid 3577, 102%)"
+2026-11-12T00:53:14-0300 [RESOLVIDO] host=citizentech-srv recurso=aplicacao valor=UP anterior=CRIT
+2026-11-12T00:53:16-0300 [CRIT] host=citizentech-srv recurso=cpu valor=100% limite_aviso=70% limite_critico=90% detalhe="load=3.26 top: stress-ng-cpu(pid 3575, 102%), stress-ng-cpu(pid 3576, 102%), stress-ng-cpu(pid 3581, 102%)"
+2026-11-12T00:53:34-0300 [CRIT] host=citizentech-srv recurso=cpu valor=100% limite_aviso=70% limite_critico=90% detalhe="load=5.36 top: stress-ng-cpu(pid 3575, 103%), stress-ng-cpu(pid 3574, 103%), stress-ng-cpu(pid 3581, 103%)"
+2026-11-12T00:53:50-0300 [CRIT] host=citizentech-srv recurso=cpu valor=100% limite_aviso=70% limite_critico=90% detalhe="load=6.83 top: stress-ng-cpu(pid 3575, 103%), stress-ng-cpu(pid 3574, 103%), stress-ng-cpu(pid 3581, 103%)"
+2026-11-12T00:54:07-0300 [RESOLVIDO] host=citizentech-srv recurso=cpu valor=0% anterior=CRIT
+2026-11-12T00:54:24-0300 [WARN] host=citizentech-srv recurso=memoria valor=80% limite_aviso=75% limite_critico=90% detalhe="disponivel=2349MB top: stress-ng-vm(pid 4022, 75.1%), gunicorn(pid 3540, 0.2%), gunicorn(pid 3539, 0.2%)"
+2026-11-12T00:54:30-0300 [WARN] host=citizentech-srv recurso=memoria valor=80% limite_aviso=75% limite_critico=90% detalhe="disponivel=2346MB top: stress-ng-vm(pid 4022, 75.1%), gunicorn(pid 3540, 0.2%), gunicorn(pid 3539, 0.2%)"
+2026-11-12T00:54:41-0300 [WARN] host=citizentech-srv recurso=memoria valor=80% limite_aviso=75% limite_critico=90% detalhe="disponivel=2346MB top: stress-ng-vm(pid 4022, 75.1%), gunicorn(pid 3540, 0.2%), gunicorn(pid 3539, 0.2%)"
+2026-11-12T00:54:57-0300 [WARN] host=citizentech-srv recurso=memoria valor=80% limite_aviso=75% limite_critico=90% detalhe="disponivel=2345MB top: stress-ng-vm(pid 4022, 75.1%), gunicorn(pid 3540, 0.2%), gunicorn(pid 3539, 0.2%)"
+2026-11-12T00:55:14-0300 [RESOLVIDO] host=citizentech-srv recurso=memoria valor=5% anterior=WARN
+2026-11-12T00:55:21-0300 [WARN] host=citizentech-srv recurso=disco:/ valor=1% limite_aviso=1% limite_critico=2% detalhe="livre=954.0GB"
+2026-11-12T00:55:22-0300 [RESOLVIDO] host=citizentech-srv recurso=disco:/ valor=1% anterior=WARN
+
+### errors.log (últimas linhas)
+$ tail -n 25 /var/log/citizentech/errors.log
+2026-11-12T00:52:38-0300 [ERROR] [systemd] [run=20261112-005238-3016] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:52:59-0300 [ERROR] [healthcheck] [run=20261112-005259-3258] ALERTA: citizentech-monitor.service está 'inactive' - iniciando recuperação automática
+2026-11-12T00:53:00-0300 [ERROR] [systemd] [run=20261112-005300-3412] FALHA: citizentech-app.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:22-0300 [ERROR] [falha-controlada.sh] [run=falha-005522] Falha na etapa 'Copiar configuração obrigatória (falha proposital)' (fault-tests.sh:39, exit=1): cp "$CT_ETC/parametros-inexistentes.conf" /tmp/citizentech-teste.conf
+2026-11-12T00:55:22-0300 [ERROR] [monitor] [run=20261112-005522-4737] Configuração inválida: CPU_WARN='abc' (esperado inteiro entre 1 e 100)
+2026-11-12T00:55:22-0300 [ERROR] [systemd] [run=20261112-005522-4815] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:28-0300 [ERROR] [systemd] [run=20261112-005528-4918] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:34-0300 [ERROR] [systemd] [run=20261112-005534-5021] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:40-0300 [ERROR] [systemd] [run=20261112-005540-5148] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:47-0300 [ERROR] [systemd] [run=20261112-005547-5263] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:52-0300 [ERROR] [healthcheck] [run=20261112-005537-5052] ALERTA: citizentech-monitor.service está 'activating' - iniciando recuperação automática
+
+### service-events.log (últimas linhas)
+$ tail -n 25 /var/log/citizentech/service-events.log
+2026-11-12T00:52:33-0300 [INFO] [systemd] [run=20261112-005233-2257] BOOT: citizentech-app.service iniciado automaticamente na inicialização do sistema (última parada antes do boot: none)
+2026-11-12T00:52:35-0300 [INFO] [systemd] [run=20261112-005235-2559] BOOT: citizentech-monitor.service iniciado automaticamente na inicialização do sistema (última parada antes do boot: none)
+2026-11-12T00:52:38-0300 [ERROR] [systemd] [run=20261112-005238-3016] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:52:43-0300 [WARN] [systemd] [run=20261112-005243-3052] RECUPERACAO: citizentech-monitor.service sendo reiniciado após falha (result=signal status=KILL) | reinícios automáticos: 1
+2026-11-12T00:52:44-0300 [INFO] [systemd] [run=20261112-005244-3205] PARADA: citizentech-monitor.service encerrado normalmente (code=exited status=0)
+2026-11-12T00:52:59-0300 [INFO] [systemd] [run=20261112-005259-3295] INICIO: citizentech-monitor.service iniciando (reinícios automáticos até agora: 0)
+2026-11-12T00:53:00-0300 [ERROR] [systemd] [run=20261112-005300-3412] FALHA: citizentech-app.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:53:03-0300 [WARN] [systemd] [run=20261112-005303-3506] RECUPERACAO: citizentech-app.service sendo reiniciado após falha (result=signal status=KILL) | reinícios automáticos: 1
+2026-11-12T00:55:22-0300 [ERROR] [systemd] [run=20261112-005522-4815] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:27-0300 [WARN] [systemd] [run=20261112-005527-4851] RECUPERACAO: citizentech-monitor.service sendo reiniciado após falha (result=signal status=KILL) | reinícios automáticos: 1
+2026-11-12T00:55:28-0300 [ERROR] [systemd] [run=20261112-005528-4918] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:34-0300 [WARN] [systemd] [run=20261112-005534-4954] RECUPERACAO: citizentech-monitor.service sendo reiniciado após falha (result=signal status=KILL) | reinícios automáticos: 2
+2026-11-12T00:55:34-0300 [ERROR] [systemd] [run=20261112-005534-5021] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:39-0300 [WARN] [systemd] [run=20261112-005539-5078] RECUPERACAO: citizentech-monitor.service sendo reiniciado após falha (result=signal status=KILL) | reinícios automáticos: 3
+2026-11-12T00:55:40-0300 [ERROR] [systemd] [run=20261112-005540-5148] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:55:46-0300 [WARN] [systemd] [run=20261112-005546-5195] RECUPERACAO: citizentech-monitor.service sendo reiniciado após falha (result=signal status=KILL) | reinícios automáticos: 4
+2026-11-12T00:55:47-0300 [ERROR] [systemd] [run=20261112-005547-5263] FALHA: citizentech-monitor.service terminou de forma anormal (result=signal code=killed status=KILL)
+2026-11-12T00:56:08-0300 [WARN] [systemd] [run=20261112-005608-5400] RECUPERACAO: citizentech-monitor.service sendo reiniciado após falha (result=signal status=KILL) | reinícios automáticos: 0
+
+### healthcheck.log (últimas linhas)
+$ tail -n 25 /var/log/citizentech/healthcheck.log
+2026-11-12T00:52:59-0300 [ERROR] [healthcheck] [run=20261112-005259-3258] ALERTA: citizentech-monitor.service está 'inactive' - iniciando recuperação automática
+2026-11-12T00:52:59-0300 [OK] [healthcheck] [run=20261112-005259-3258] RECUPERADO: citizentech-monitor.service ativo novamente (PID 3326, tentativa 1)
+2026-11-12T00:52:59-0300 [WARN] [healthcheck] [run=20261112-005259-3258] Verificação concluída: problemas=1 recuperados=1 falhas=0
+2026-11-12T00:53:31-0300 [INFO ] [healthcheck] OK: 4 serviços ativos, monitor e aplicação respondendo
+2026-11-12T00:54:03-0300 [INFO ] [healthcheck] OK: 4 serviços ativos, monitor e aplicação respondendo
+2026-11-12T00:54:35-0300 [INFO ] [healthcheck] OK: 4 serviços ativos, monitor e aplicação respondendo
+2026-11-12T00:55:07-0300 [INFO ] [healthcheck] OK: 4 serviços ativos, monitor e aplicação respondendo
+2026-11-12T00:55:52-0300 [ERROR] [healthcheck] [run=20261112-005537-5052] ALERTA: citizentech-monitor.service está 'activating' - iniciando recuperação automática
+2026-11-12T00:56:08-0300 [INFO] [healthcheck] [run=20261112-005537-5052] reset-failed aplicado em citizentech-monitor.service (limite de reinícios do systemd zerado) - tentativa 2
+2026-11-12T00:56:08-0300 [OK] [healthcheck] [run=20261112-005537-5052] RECUPERADO: citizentech-monitor.service ativo novamente (PID 5432, tentativa 2)
+2026-11-12T00:56:08-0300 [WARN] [healthcheck] [run=20261112-005537-5052] Verificação concluída: problemas=1 recuperados=1 falhas=0
+2026-11-12T00:56:09-0300 [INFO ] [healthcheck] OK: 4 serviços ativos, monitor e aplicação respondendo
+
+### fault-tests.log (últimas linhas)
+$ tail -n 25 /var/log/citizentech/fault-tests.log
+2026-11-12T00:52:44-0300 [PASS] [fault-tests] [run=20261112-005238-2984] teste=kill-monitor PID 2591 morto (SIGKILL), systemd reiniciou como PID 3084 (NRestarts 0 -> 1)
+2026-11-12T00:53:00-0300 [PASS] [fault-tests] [run=20261112-005238-2984] teste=stop-monitor parado manualmente, recuperado pelo watchdog em 16s
+2026-11-12T00:53:04-0300 [PASS] [fault-tests] [run=20261112-005238-2984] teste=kill-app PID 2288 morto, aplicação voltou como PID 3538 em ~5s (indisponibilidade detectada: sim)
+2026-11-12T00:54:09-0300 [PASS] [fault-tests] [run=20261112-005238-2984] teste=cpu-stress 4 alerta(s) de CPU gerados e registrados, seguidos de RESOLVIDO
+2026-11-12T00:55:20-0300 [PASS] [fault-tests] [run=20261112-005238-2984] teste=mem-stress 4 alerta(s) de memória gerados e registrados
+2026-11-12T00:55:22-0300 [PASS] [fault-tests] [run=20261112-005238-2984] teste=disk-alert 1 alerta(s) de disco registrados e resolvidos
+2026-11-12T00:55:22-0300 [STEP ] [falha-controlada.sh] [run=falha-005522] Copiar configuração obrigatória (falha proposital)
+2026-11-12T00:55:22-0300 [INFO] [falha-controlada.sh] [run=falha-005522] Copiando arquivo de configuração obrigatório /etc/citizentech/parametros-inexistentes.conf
+2026-11-12T00:55:22-0300 [ERROR] [falha-controlada.sh] [run=falha-005522] Falha na etapa 'Copiar configuração obrigatória (falha proposital)' (fault-tests.sh:39, exit=1): cp "$CT_ETC/parametros-inexistentes.conf" /tmp/citizentech-teste.conf
+2026-11-12T00:55:22-0300 [PASS] [fault-tests] [run=20261112-005238-2984] teste=script-error falhas registradas em errors.log, audit.log e journald (run=falha-005522)
+2026-11-12T00:56:09-0300 [PASS] [fault-tests] [run=20261112-005522-4785] teste=crash-loop 5 falhas seguidas -> systemd marcou failed -> watchdog recuperou em 9s
+
+### Instalações registradas
+$ grep -h 'pacote instalado' /var/log/citizentech/provision.log | tail -n 40
+
+### Auditoria no journald
+$ journalctl -t citizentech-audit -n 20 --no-pager -o short-iso
+2026-11-12T00:55:22-03:00 citizentech-srv citizentech-audit[4836]: run=20261112-005522-4815 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:27-03:00 citizentech-srv citizentech-audit[4881]: run=20261112-005527-4851 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=1
+2026-11-12T00:55:27-03:00 citizentech-srv citizentech-audit[4900]: run=20261112-005527-4882 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=4882 intervalo=15s
+2026-11-12T00:55:28-03:00 citizentech-srv citizentech-audit[4939]: run=20261112-005528-4918 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:34-03:00 citizentech-srv citizentech-audit[4984]: run=20261112-005534-4954 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=2
+2026-11-12T00:55:34-03:00 citizentech-srv citizentech-audit[5003]: run=20261112-005534-4985 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=4985 intervalo=15s
+2026-11-12T00:55:34-03:00 citizentech-srv citizentech-audit[5042]: run=20261112-005534-5021 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:39-03:00 citizentech-srv citizentech-audit[5111]: run=20261112-005539-5078 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=3
+2026-11-12T00:55:40-03:00 citizentech-srv citizentech-audit[5130]: run=20261112-005539-5113 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=5113 intervalo=15s
+2026-11-12T00:55:40-03:00 citizentech-srv citizentech-audit[5171]: run=20261112-005540-5148 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:46-03:00 citizentech-srv citizentech-audit[5226]: run=20261112-005546-5195 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=4
+2026-11-12T00:55:46-03:00 citizentech-srv citizentech-audit[5245]: run=20261112-005546-5228 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=5228 intervalo=15s
+2026-11-12T00:55:47-03:00 citizentech-srv citizentech-audit[5286]: run=20261112-005547-5263 | host=citizentech-srv | user=root | script=systemd | acao=servico-falha | resultado=FAIL | detalhe=unit=citizentech-monitor.service result=signal code=killed status=KILL
+2026-11-12T00:55:52-03:00 citizentech-srv citizentech-audit[5320]: run=20261112-005537-5052 | host=citizentech-srv | user=root | script=healthcheck | acao=falha-detectada | resultado=FAIL | detalhe=servico=citizentech-monitor.service estado=activating
+2026-11-12T00:56:08-03:00 citizentech-srv citizentech-audit[5430]: run=20261112-005608-5400 | host=citizentech-srv | user=root | script=systemd | acao=servico-recuperacao | resultado=OK | detalhe=unit=citizentech-monitor.service causa=result=signal status=KILL nrestarts=0
+2026-11-12T00:56:08-03:00 citizentech-srv citizentech-audit[5453]: run=20261112-005537-5052 | host=citizentech-srv | user=root | script=healthcheck | acao=recuperacao | resultado=OK | detalhe=servico=citizentech-monitor.service estado_anterior=activating tentativas=2
+2026-11-12T00:56:08-03:00 citizentech-srv citizentech-audit[5463]: run=20261112-005608-5432 | host=citizentech-srv | user=root | script=monitor | acao=monitor-inicio | resultado=OK | detalhe=pid=5432 intervalo=15s
+2026-11-12T00:56:09-03:00 citizentech-srv citizentech-audit[5521]: run=20261112-005522-4785 | host=citizentech-srv | user=root | script=fault-tests.sh | acao=teste-crash-loop | resultado=OK | detalhe=5 falhas seguidas -> systemd marcou failed -> watchdog recuperou em 9s
+2026-11-12T00:56:09-03:00 citizentech-srv citizentech-audit[5535]: run=20261112-005522-4785 | host=citizentech-srv | user=root | script=fault-tests.sh | acao=fim | resultado=OK | detalhe=duracao=47s
+2026-11-12T00:56:09-03:00 citizentech-srv citizentech-audit[5558]: run=20261112-005609-5538 | host=citizentech-srv | user=root | script=collect-evidence.sh | acao=inicio | resultado=OK | detalhe=Coleta de evidências
+
+### Arquivos de log
+$ ls -la /var/log/citizentech /var/log/citizentech/app
+/var/log/citizentech:
+total 88
+drwxr-s--x  3 root        citizentech-ops  4096 Nov 12 00:52 .
+drwxrwxr-x 11 root        syslog           4096 Nov 12 00:52 ..
+-rw-r-----  1 root        citizentech-ops  2522 Nov 12 00:55 alerts.log
+drwxr-s---  2 citizentech citizentech-ops  4096 Nov 12 00:52 app
+-rw-r-----  1 root        citizentech-ops 18884 Nov 12 00:56 audit.log
+-rw-r-----  1 root        citizentech-ops  3553 Nov 12 00:52 commands.log
+-rw-r-----  1 root        citizentech-ops  1913 Nov 12 00:55 errors.log
+-rw-r-----  1 root        citizentech-ops  1784 Nov 12 00:56 fault-tests.log
+-rw-r-----  1 root        citizentech-ops  1608 Nov 12 00:56 healthcheck.log
+-rw-r-----  1 root        citizentech-ops  1373 Nov 12 00:56 metrics.csv
+-rw-r-----  1 root        citizentech-ops  4189 Nov 12 00:56 monitor.log
+-rw-r-----  1 root        citizentech-ops   218 Nov 12 00:52 network.log
+-rw-r-----  1 root        citizentech-ops 12643 Nov 12 00:56 provision.log
+-rw-r-----  1 root        citizentech-ops  3252 Nov 12 00:56 service-events.log
+
+/var/log/citizentech/app:
+total 12
+drwxr-s--- 2 citizentech citizentech-ops 4096 Nov 12 00:52 .
+drwxr-s--x 3 root        citizentech-ops 4096 Nov 12 00:52 ..
+-rw-r----- 1 citizentech citizentech     3355 Nov 12 00:56 access.log
+
+### Rotação de logs
+$ cat /etc/logrotate.d/citizentech
+# CitizenTech - rotação de logs (gerado por 01-provision-infra.sh)
+/var/log/citizentech/*.log /var/log/citizentech/*.csv /var/log/citizentech/app/*.log {
+    daily
+    rotate 14
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+    dateext
+}

@@ -1,0 +1,318 @@
+
+################  scripts/01-provision-infra.sh  ################
+
+==> [1/10] Verificando pré-requisitos
+[INFO] Sistema operacional: Ubuntu 24.04.5 LTS
+[INFO] Ambiente detectado:  WSL2 (Windows Subsystem for Linux)
+[INFO] Kernel:              6.6.87.1-microsoft-standard-WSL2
+[ OK ] systemd ativo (PID 1)
+[ OK ] Conectividade com a internet OK
+
+==> [2/10] Instalando pacotes base
+[INFO] Já instalados: ca-certificates curl wget git jq rsync acl sudo openssl tzdata iproute2 iputils-ping bind9-dnsutils net-tools lsof procps htop sysstat stress-ng logrotate
+
+==> [3/10] Usuários, grupos e permissões sudo
+[ OK ] Grupo criado: citizentech-ops
+[ OK ] Usuário de serviço criado: citizentech (sem login)
+[ OK ] Usuário operador criado: ctops (grupo citizentech-ops)
+[ OK ] Regras sudo instaladas em /etc/sudoers.d/citizentech (validadas com visudo)
+
+==> [4/10] Diretórios, permissões e variáveis de ambiente
+        /opt/citizentech                 0755 root:root
+        /opt/citizentech/bin             0755 root:root
+        /opt/citizentech/app             0750 root:citizentech
+        /etc/citizentech                 0750 root:citizentech-ops
+        /var/lib/citizentech             0755 root:root
+        /var/lib/citizentech/db          0750 citizentech:citizentech
+        /var/lib/citizentech/home        0750 citizentech:citizentech
+        /var/lib/citizentech/state       0750 root:citizentech-ops
+        /var/log/citizentech             2751 root:citizentech-ops
+        /var/log/citizentech/app         2750 citizentech:citizentech-ops
+        /var/backups/citizentech         0700 root:root
+[ OK ] Configuração instalada em /etc/citizentech/citizentech.conf
+[ OK ] Scripts de runtime instalados em /opt/citizentech/bin
+[ OK ] Variáveis de ambiente de shell em /etc/profile.d/citizentech.sh
+
+==> [5/10] Resolução local de nomes (/etc/hosts)
+[ OK ] /etc/hosts atualizado:
+        # BEGIN CITIZENTECH (gerenciado por citizentech-linux-infra - não editar)
+        127.0.1.1    citizentech-srv citizentech-srv.citizentech.local
+        127.0.0.1    citizentech.local www.citizentech.local
+        10.77.0.10   app.citizentech.local api.citizentech.local
+        # END CITIZENTECH
+[INFO] WSL: generateHosts=false em /etc/wsl.conf (mantém /etc/hosts entre reinícios)
+
+==> [6/10] Hostname e fuso horário
+[INFO] WSL: hostname persistido em /etc/wsl.conf ([network] hostname)
+[ OK ] Hostname: citizentech-srv -> citizentech-srv
+[ OK ] Fuso horário: America/Sao_Paulo (12/11/2026 00:52:22 -03)
+
+==> [7/10] Rede e endereçamento IP
+[ OK ] Interface de serviço ct0: 10.77.0.10/24 (citizentech-network.service habilitado no boot)
+[INFO] WSL: IP principal (172.30.23.68/20) é atribuído pelo Windows (NAT) - mantido
+[INFO] Endereços atuais:
+        lo               UNKNOWN        127.0.0.1/8 10.255.255.254/32 
+        eth0             UP             172.30.23.68/20 
+        ct0              UNKNOWN        10.77.0.10/24 
+[INFO] Rota padrão: default via 172.30.16.1 dev eth0 proto kernel 
+
+==> [8/10] DNS
+[ OK ] Servidores DNS configurados: 1.1.1.1 8.8.8.8
+[ OK ]   DNS 1.1.1.1 respondeu para github.com
+[ OK ]   DNS 8.8.8.8 respondeu para github.com
+[ OK ] Resolução externa:  github.com -> 4.228.31.150
+[ OK ] Resolução local:    citizentech.local -> 127.0.0.1,  app.citizentech.local -> 10.77.0.10
+
+==> [9/10] Logs e auditoria (logrotate, journald)
+[ OK ] logrotate: rotação diária, retenção de 14 dias
+[ OK ] journald persistente (/var/log/journal) - logs sobrevivem ao reboot
+[ OK ] Logs do projeto em /var/log/citizentech:
+        total 20
+        -rw-r----- 1 root        citizentech-ops    0 Nov 12 00:52 alerts.log
+        drwxr-s--- 2 citizentech citizentech-ops 4096 Nov 12 00:52 app
+        -rw-r----- 1 root        citizentech-ops 2981 Nov 12 00:52 audit.log
+        -rw-r----- 1 root        citizentech-ops    0 Nov 12 00:52 commands.log
+        -rw-r----- 1 root        citizentech-ops    0 Nov 12 00:52 errors.log
+        -rw-r----- 1 root        citizentech-ops    0 Nov 12 00:52 fault-tests.log
+        -rw-r----- 1 root        citizentech-ops    0 Nov 12 00:52 healthcheck.log
+        -rw-r----- 1 root        citizentech-ops    0 Nov 12 00:52 monitor.log
+        -rw-r----- 1 root        citizentech-ops  218 Nov 12 00:52 network.log
+        -rw-r----- 1 root        citizentech-ops 5372 Nov 12 00:52 provision.log
+        -rw-r----- 1 root        citizentech-ops    0 Nov 12 00:52 service-events.log
+
+==> [10/10] Firewall
+[INFO] Firewall não alterado neste ambiente (FIREWALL=auto, ambiente=wsl)
+
++------------------------------------------------------------------+
+| Infraestrutura provisionada                                      |
+| WSL2 (Windows Subsystem for Linux)                               |
++------------------------------------------------------------------+
+  Hostname               citizentech-srv
+  Domínio                citizentech.local
+  IP principal           172.30.23.68/20 (eth0)
+  IP de serviço          10.77.0.10/24 (ct0)
+  DNS                    1.1.1.1 8.8.8.8 
+  Fuso horário           America/Sao_Paulo
+  Usuário da app         citizentech
+  Operador               ctops (grupo citizentech-ops)
+  Logs                   /var/log/citizentech
+
+[ OK ] Próximo passo: sudo ./scripts/02-provision-app.sh
+
+################  scripts/02-provision-app.sh  ################
+
+==> [1/9] Verificando infraestrutura
+[ OK ] Infraestrutura base encontrada (usuário, diretórios e rede de serviço)
+[INFO] Aplicação: citizentech-app | runtime: python | origem: local
+
+==> [2/9] Instalando runtime e dependências
+[INFO] Já instalados: python3 python3-venv python3-pip sqlite3
+[INFO] Já instalados: nginx
+[INFO] Versão: Python 3.12.3
+[INFO] Versão: nginx version: nginx/1.24.0 (Ubuntu)
+
+==> [3/9] Publicando o código da aplicação
+[ OK ] Código publicado em /opt/citizentech/app (5 arquivos)
+
+==> [4/9] Configurando variáveis de ambiente
+[INFO] SECRET_KEY gerada aleatoriamente (openssl rand)
+[ OK ] Variáveis de ambiente em /etc/citizentech/app.env (600 root:root):
+        APP_NAME=citizentech-app
+        APP_ENV=production
+        APP_HOST=10.77.0.10
+        APP_PORT=8000
+        HOST=10.77.0.10
+        PORT=8000
+        DATABASE_PATH=/var/lib/citizentech/db/citizentech.db
+        LOG_DIR=/var/log/citizentech/app
+        SECRET_KEY=********
+        TZ=America/Sao_Paulo
+        HOME=/var/lib/citizentech/home
+        PYTHONUNBUFFERED=1
+        NODE_ENV=production
+        ASPNETCORE_URLS=http://10.77.0.10:8000
+        ASPNETCORE_ENVIRONMENT=Production
+        DOTNET_CLI_TELEMETRY_OPTOUT=1
+        DOTNET_NOLOGO=1
+
+==> [5/9] Instalando dependências da aplicação
+[ OK ] Ambiente virtual Python criado em /opt/citizentech/venv
+[ OK ] Dependências Python instaladas:
+        blinker==1.9.0
+        click==8.5.1
+        Flask==3.0.3
+        gunicorn==23.0.0
+        itsdangerous==2.2.0
+        Jinja2==3.1.6
+        MarkupSafe==3.0.4
+        packaging==26.3
+        Werkzeug==3.1.9
+[INFO] Comando de execução: /opt/citizentech/venv/bin/gunicorn --workers 2 --bind 10.77.0.10:8000 --timeout 30 --access-logfile /var/log/citizentech/app/access.log --error-logfile - --capture-output app:app
+
+==> [6/9] Aplicando dono e permissões
+[ OK ] Permissões aplicadas:
+        drwxr-x--- root:citizentech /opt/citizentech/app
+        -rw------- root:root /etc/citizentech/app.env
+        drwxr-x--- citizentech:citizentech /var/lib/citizentech/db
+        drwxr-s--x root:citizentech-ops /var/log/citizentech
+        drwxr-s--- citizentech:citizentech-ops /var/log/citizentech/app
+        drwxr-xr-x root:citizentech /opt/citizentech/venv
+
+==> [7/9] Criando serviço systemd da aplicação
+[ OK ] Unit instalada: /etc/systemd/system/citizentech-app.service (enabled - inicia no boot)
+[INFO] Restart=always, RestartSec=3, usuário citizentech, sandbox ProtectSystem=strict
+
+==> [8/9] Configurando Nginx (proxy reverso)
+[INFO] Site padrão do Nginx desabilitado
+[ OK ] nginx -t: configuração válida
+[ OK ] Nginx: proxy reverso :80 -> 10.77.0.10:8000 (Restart=on-failure via drop-in)
+
+==> [9/9] Iniciando e testando a aplicação
+[ OK ] Aplicação respondendo diretamente: http://10.77.0.10:8000/health
+[ OK ] Acesso via Nginx + nome local: http://citizentech.local/  (HTTP 200)
+[INFO] Resposta de /health: {"banco":"ok","hostname":"citizentech-srv","status":"ok","uptime_segundos":0,"versao":"1.0.0"}
+
++------------------------------------------------------------------+
+| Aplicação CitizenTech no ar                                      |
+| WSL2 (Windows Subsystem for Linux)                               |
++------------------------------------------------------------------+
+  No servidor (DNS local)    http://citizentech.local/
+  IP principal               http://172.30.23.68/
+  IP de serviço (interno)    http://10.77.0.10:8000/
+  Serviço                    systemctl status citizentech-app
+  Logs da aplicação          /var/log/citizentech/app/  |  journalctl -u citizentech-app
+  No navegador do Windows    http://localhost/
+
+[ OK ] Próximo passo: sudo ./scripts/03-provision-monitoring.sh
+
+################  scripts/03-provision-monitoring.sh  ################
+
+==> [1/5] Instalando scripts de monitoramento
+[ OK ] Scripts instalados:
+        total 36
+        -rwxr-xr-x 1 root root  1865 Nov 12 00:52 ct-network.sh
+        -rwxr-xr-x 1 root root  5111 Nov 12 00:52 healthcheck.sh
+        drwxr-xr-x 2 root root  4096 Nov 12 00:52 lib
+        -rwxr-xr-x 1 root root 13924 Nov 12 00:52 monitor.sh
+        -rwxr-xr-x 1 root root  3340 Nov 12 00:52 service-event.sh
+[ OK ] Atalhos: ct-monitor, ct-healthcheck (em /usr/local/bin)
+
+==> [2/5] Instalando units systemd
+[ OK ] Unit instalada: /etc/systemd/system/citizentech-monitor.service
+[ OK ] Unit instalada: /etc/systemd/system/citizentech-healthcheck.service
+[ OK ] Unit instalada: /etc/systemd/system/citizentech-healthcheck.timer
+
+==> [3/5] Validando units
+[ OK ] systemd-analyze verify citizentech-monitor.service: sem erros
+[ OK ] systemd-analyze verify citizentech-healthcheck.service: sem erros
+[ OK ] systemd-analyze verify citizentech-healthcheck.timer: sem erros
+
+==> [4/5] Habilitando e iniciando serviços
+[ OK ] Habilitados no boot: citizentech-monitor.service, citizentech-healthcheck.timer
+        NEXT                        LEFT LAST PASSED UNIT                          ACTIVATES
+        Thu 2026-11-12 00:52:57 -03  21s -         - citizentech-healthcheck.timer citizentech-healthcheck.service
+        
+        1 timers listed.
+        Pass --all to see loaded but inactive timers, too.
+
+==> [5/5] Confirmando funcionamento
+[ OK ] Monitor ativo e registrando. Última verificação:
+        2026-11-12T00:52:35-0300 [INFO] [monitor] [run=20261112-005235-2591] BOOT: nova inicialização do sistema detectada (systemd iniciado em: Thu Nov 12 00:52:10 2026) - monitor iniciado automaticamente
+[INFO] Status do serviço:
+        ● citizentech-monitor.service - CitizenTech - Monitoramento de CPU, memoria e disco
+             Loaded: loaded (/etc/systemd/system/citizentech-monitor.service; enabled; preset: enabled)
+             Active: active (running) since Thu 2026-11-12 00:52:35 -03; 1s ago
+            Process: 2559 ExecStartPre=/opt/citizentech/bin/service-event.sh start citizentech-monitor.service (code=exited, status=0/SUCCESS)
+           Main PID: 2591 (bash)
+              Tasks: 4 (limit: 14341)
+             Memory: 3.0M (peak: 4.6M)
+                CPU: 159ms
+             CGroup: /system.slice/citizentech-monitor.service
+                     ├─2591 bash /opt/citizentech/bin/monitor.sh --daemon
+                     └─2679 "[bash]"
+
++------------------------------------------------------------------+
+| Monitoramento ativo                                              |
+| intervalo 15s | watchdog a cada 30s                              |
++------------------------------------------------------------------+
+  Painel no terminal             sudo ct-monitor
+  Logs de verificação            /var/log/citizentech/monitor.log
+  Alertas                        /var/log/citizentech/alerts.log
+  Histórico (CSV)                /var/log/citizentech/metrics.csv
+  Watchdog                       /var/log/citizentech/healthcheck.log
+  Ciclo de vida dos serviços     /var/log/citizentech/service-events.log
+  Journal                        journalctl -u citizentech-monitor -f
+
+[ OK ] Próximo passo: sudo ./scripts/04-validate.sh
+
+################  scripts/04-validate.sh  ################
+
++------------------------------------------------------------------+
+| Validação do ambiente CitizenTech                                |
+| citizentech-srv | WSL2 (Windows Subsystem for Linux)             |
++------------------------------------------------------------------+
+
+1. Sistema e identificação
+  [PASS] Hostname é 'citizentech-srv' (atual: citizentech-srv)
+  [PASS] Fuso horário America/Sao_Paulo
+  [PASS] systemd é o PID 1
+  [PASS] journald persistente (/var/log/journal)
+
+2. Rede, IP e DNS
+  [PASS] Interface ct0 com IP 10.77.0.10/24
+  [PASS] Rota padrão configurada (eth0)
+  [PASS] Nome local citizentech.local resolve para 127.0.0.1
+  [PASS] Nome app.citizentech.local resolve para 10.77.0.10
+  [PASS] Hostname citizentech-srv resolve localmente
+  [PASS] DNS externo resolve github.com
+  [PASS] Servidores DNS do projeto em uso (1.1.1.1 8.8.8.8)
+  [PASS] Serviço de rede citizentech-network ativo e habilitado
+
+3. Usuários, grupos e permissões
+  [PASS] Usuário de serviço citizentech sem shell de login
+  [PASS] Grupo citizentech-ops existe
+  [PASS] Operador ctops pertence a citizentech-ops
+  [PASS] Regras sudo válidas (/etc/sudoers.d/citizentech)
+  [PASS] Operador pode reiniciar serviços via sudo
+  [PASS] /opt/citizentech/app = 750 root:citizentech
+  [PASS] /etc/citizentech/app.env = 600 root:root (segredos)
+  [PASS] /var/lib/citizentech/db = 750 citizentech:citizentech
+  [PASS] /var/log/citizentech = 2751 root:citizentech-ops
+  [PASS] Usuário citizentech lê mas NÃO altera o código
+
+4. Aplicação
+  [PASS] Pacote nginx instalado
+  [PASS] Variáveis de ambiente carregadas no processo da aplicação
+  [PASS] citizentech-app ativo e habilitado no boot
+  [PASS] Aplicação roda como usuário citizentech
+  [PASS] nginx ativo e habilitado no boot
+  [PASS] Health direto http://10.77.0.10:8000/health
+  [PASS] Página via Nginx http://citizentech.local/ (HTTP 200)
+  [PASS] Página via IP principal http://172.30.23.68/
+
+5. Monitoramento e serviços systemd
+  [PASS] citizentech-monitor ativo e habilitado no boot
+  [PASS] citizentech-monitor com Restart=always
+  [PASS] Watchdog citizentech-healthcheck.timer ativo
+  [PASS] monitor.sh executa verificação manual
+  [PASS] Monitor registrou verificação nos últimos 45s
+  [PASS] Watchdog executou nos últimos 120s
+
+6. Logs e auditoria
+  [PASS] Log /var/log/citizentech/audit.log existe
+  [PASS] Log /var/log/citizentech/provision.log existe
+  [PASS] Log /var/log/citizentech/monitor.log existe
+  [PASS] Log /var/log/citizentech/alerts.log existe
+  [PASS] Log /var/log/citizentech/healthcheck.log existe
+  [PASS] Log /var/log/citizentech/service-events.log existe
+  [PASS] Log /var/log/citizentech/errors.log existe
+  [PASS] Auditoria registra provisionamento (01, 02 e 03)
+  [PASS] Histórico de métricas (metrics.csv) com dados
+  [PASS] Rotação de logs configurada (logrotate)
+  [PASS] Auditoria também no journald (citizentech-audit)
+
+  RESULTADO: 47/47 verificações aprovadas - ambiente 100% operacional
+
+
+Ambiente CitizenTech provisionado em 17s (run=install-20261112-005221).
+Acesse: http://citizentech.local/ (no servidor)  |  Testes de falha: sudo ./scripts/fault-tests.sh all

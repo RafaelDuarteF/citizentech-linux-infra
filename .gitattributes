@@ -1,0 +1,4 @@
+# Scripts e configs sempre com fim de linha Unix (LF), mesmo se clonados no Windows
+* text=auto eol=lf
+*.png binary
+*.jpg binary

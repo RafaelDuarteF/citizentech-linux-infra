@@ -1,0 +1,96 @@
+
+### Health check via Nginx
+$ curl -s -i http://citizentech.local/health
+HTTP/1.1 200 OK
+Server: nginx
+Date: Thu, 12 Nov 2026 03:56:10 GMT
+Content-Type: application/json
+Content-Length: 97
+Connection: keep-alive
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+
+{"banco":"ok","hostname":"citizentech-srv","status":"ok","uptime_segundos":186,"versao":"1.0.0"}
+
+### Informações da aplicação
+$ curl -s http://citizentech.local/api/info | jq . 2>/dev/null || curl -s http://citizentech.local/api/info
+{
+  "ambiente": "production",
+  "app": "CitizenTech - Zeladoria Cidadã",
+  "app_host": "10.77.0.10",
+  "app_port": "8000",
+  "database_path": "/var/lib/citizentech/db/citizentech.db",
+  "hostname": "citizentech-srv",
+  "log_dir": "/var/log/citizentech/app",
+  "pid": 3540,
+  "secret_key_configurada": true,
+  "uptime_segundos": 186,
+  "usuario_uid": 999,
+  "versao": "1.0.0"
+}
+
+### Ocorrências (API)
+$ curl -s http://citizentech.local/api/ocorrencias | jq '.[0:3]' 2>/dev/null
+[
+  {
+    "bairro": "Ipiranga",
+    "categoria": "alagamento",
+    "criada_em": "2026-11-12T00:52:33",
+    "descricao": "Rua alaga em chuvas fortes, bueiro entupido.",
+    "endereco": "Rua próxima ao córrego",
+    "id": 5,
+    "status": "aberta"
+  },
+  {
+    "bairro": "Paulista",
+    "categoria": "calcada",
+    "criada_em": "2026-11-12T00:52:33",
+    "descricao": "Piso solto dificulta a passagem de cadeira de rodas.",
+    "endereco": "Calçada em frente ao ponto de ônibus",
+    "id": 4,
+    "status": "resolvida"
+  },
+  {
+    "bairro": "Cambuci",
+    "categoria": "lixo",
+    "criada_em": "2026-11-12T00:52:33",
+    "descricao": "Entulho de obra descartado na calçada.",
+    "endereco": "Esquina próxima ao mercado",
+    "id": 3,
+    "status": "aberta"
+  }
+]
+
+### Página inicial (cabeçalhos)
+$ curl -s -I http://citizentech.local/
+HTTP/1.1 200 OK
+Server: nginx
+Date: Thu, 12 Nov 2026 03:56:10 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 6338
+Connection: keep-alive
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+
+
+### Processos da aplicação
+$ ps -o user,pid,ppid,%cpu,%mem,cmd -u citizentech
+USER         PID    PPID %CPU %MEM CMD
+citizen+    3538       1  0.0  0.1 /opt/citizentech/venv/bin/python3 /opt/citizentech/venv/bin/gunicorn --workers 2 --bind 10.77.0.10:8000 --timeout 30 --access-logfile /var/log/citizentech/app/access
+citizen+    3539    3538  0.1  0.2 /opt/citizentech/venv/bin/python3 /opt/citizentech/venv/bin/gunicorn --workers 2 --bind 10.77.0.10:8000 --timeout 30 --access-logfile /var/log/citizentech/app/access
+citizen+    3540    3538  0.1  0.2 /opt/citizentech/venv/bin/python3 /opt/citizentech/venv/bin/gunicorn --workers 2 --bind 10.77.0.10:8000 --timeout 30 --access-logfile /var/log/citizentech/app/access
+
+### Log de acesso
+$ tail -n 10 /var/log/citizentech/app/access.log
+10.77.0.10 - - [12/Nov/2026:00:55:14 -0300] "GET /health HTTP/1.1" 200 97 "-" "curl/8.5.0"
+10.77.0.10 - - [12/Nov/2026:00:55:21 -0300] "GET /health HTTP/1.1" 200 97 "-" "curl/8.5.0"
+10.77.0.10 - - [12/Nov/2026:00:55:22 -0300] "GET /health HTTP/1.1" 200 97 "-" "curl/8.5.0"
+10.77.0.10 - - [12/Nov/2026:00:56:08 -0300] "GET /health HTTP/1.1" 200 97 "-" "curl/8.5.0"
+10.77.0.10 - - [12/Nov/2026:00:56:09 -0300] "GET /health HTTP/1.1" 200 97 "-" "curl/8.5.0"
+10.77.0.10 - - [12/Nov/2026:00:56:09 -0300] "GET /health HTTP/1.1" 200 97 "-" "curl/8.5.0"
+10.77.0.10 - - [12/Nov/2026:00:56:10 -0300] "GET /health HTTP/1.1" 200 97 "-" "curl/8.5.0"
+10.77.0.10 - - [12/Nov/2026:00:56:10 -0300] "GET /api/info HTTP/1.1" 200 333 "-" "curl/8.5.0"
+10.77.0.10 - - [12/Nov/2026:00:56:10 -0300] "GET /api/ocorrencias HTTP/1.1" 200 1148 "-" "curl/8.5.0"
+10.77.0.10 - - [12/Nov/2026:00:56:10 -0300] "HEAD / HTTP/1.1" 200 0 "-" "curl/8.5.0"

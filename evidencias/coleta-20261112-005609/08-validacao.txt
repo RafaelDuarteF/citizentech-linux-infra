@@ -1,0 +1,70 @@
+
+### Validação automática
+$ /root/citizentech-linux-infra/scripts/04-validate.sh
+
++------------------------------------------------------------------+
+| Validação do ambiente CitizenTech                                |
+| citizentech-srv | WSL2 (Windows Subsystem for Linux)             |
++------------------------------------------------------------------+
+
+1. Sistema e identificação
+  [PASS] Hostname é 'citizentech-srv' (atual: citizentech-srv)
+  [PASS] Fuso horário America/Sao_Paulo
+  [PASS] systemd é o PID 1
+  [PASS] journald persistente (/var/log/journal)
+
+2. Rede, IP e DNS
+  [PASS] Interface ct0 com IP 10.77.0.10/24
+  [PASS] Rota padrão configurada (eth0)
+  [PASS] Nome local citizentech.local resolve para 127.0.0.1
+  [PASS] Nome app.citizentech.local resolve para 10.77.0.10
+  [PASS] Hostname citizentech-srv resolve localmente
+  [PASS] DNS externo resolve github.com
+  [PASS] Servidores DNS do projeto em uso (1.1.1.1 8.8.8.8)
+  [PASS] Serviço de rede citizentech-network ativo e habilitado
+
+3. Usuários, grupos e permissões
+  [PASS] Usuário de serviço citizentech sem shell de login
+  [PASS] Grupo citizentech-ops existe
+  [PASS] Operador ctops pertence a citizentech-ops
+  [PASS] Regras sudo válidas (/etc/sudoers.d/citizentech)
+  [PASS] Operador pode reiniciar serviços via sudo
+  [PASS] /opt/citizentech/app = 750 root:citizentech
+  [PASS] /etc/citizentech/app.env = 600 root:root (segredos)
+  [PASS] /var/lib/citizentech/db = 750 citizentech:citizentech
+  [PASS] /var/log/citizentech = 2751 root:citizentech-ops
+  [PASS] Usuário citizentech lê mas NÃO altera o código
+
+4. Aplicação
+  [PASS] Pacote nginx instalado
+  [PASS] Variáveis de ambiente carregadas no processo da aplicação
+  [PASS] citizentech-app ativo e habilitado no boot
+  [PASS] Aplicação roda como usuário citizentech
+  [PASS] nginx ativo e habilitado no boot
+  [PASS] Health direto http://10.77.0.10:8000/health
+  [PASS] Página via Nginx http://citizentech.local/ (HTTP 200)
+  [PASS] Página via IP principal http://172.30.23.68/
+
+5. Monitoramento e serviços systemd
+  [PASS] citizentech-monitor ativo e habilitado no boot
+  [PASS] citizentech-monitor com Restart=always
+  [PASS] Watchdog citizentech-healthcheck.timer ativo
+  [PASS] monitor.sh executa verificação manual
+  [PASS] Monitor registrou verificação nos últimos 45s
+  [PASS] Watchdog executou nos últimos 120s
+
+6. Logs e auditoria
+  [PASS] Log /var/log/citizentech/audit.log existe
+  [PASS] Log /var/log/citizentech/provision.log existe
+  [PASS] Log /var/log/citizentech/monitor.log existe
+  [PASS] Log /var/log/citizentech/alerts.log existe
+  [PASS] Log /var/log/citizentech/healthcheck.log existe
+  [PASS] Log /var/log/citizentech/service-events.log existe
+  [PASS] Log /var/log/citizentech/errors.log existe
+  [PASS] Auditoria registra provisionamento (01, 02 e 03)
+  [PASS] Histórico de métricas (metrics.csv) com dados
+  [PASS] Rotação de logs configurada (logrotate)
+  [PASS] Auditoria também no journald (citizentech-audit)
+
+  RESULTADO: 47/47 verificações aprovadas - ambiente 100% operacional
+

@@ -1,0 +1,44 @@
+
+### Data da coleta
+$ date '+%d/%m/%Y %H:%M:%S %Z'
+12/11/2026 00:56:09 -03
+
+### Hostname
+$ hostname; hostnamectl 2>/dev/null | head -12
+citizentech-srv
+ Static hostname: citizentech-srv
+       Icon name: computer-container
+         Chassis: container ☐
+      Machine ID: 569567c6c33c4cb3a27995d16a150fbd
+         Boot ID: 52b88c9e45d64020b7e62d2da2df0312
+  Virtualization: wsl
+Operating System: Ubuntu 24.04.5 LTS
+          Kernel: Linux 6.6.87.1-microsoft-standard-WSL2
+    Architecture: x86-64
+
+### Sistema operacional
+$ cat /etc/os-release | head -4; uname -a
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.5 LTS (Noble Numbat)"
+Linux citizentech-srv 6.6.87.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Mon Apr 21 17:08:54 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+
+### Ambiente
+$ systemd-detect-virt; echo 'WSL2 (Windows Subsystem for Linux)'
+wsl
+WSL2 (Windows Subsystem for Linux)
+
+### Tempo ligado / boot do systemd
+$ uptime; ps -o lstart= -p 1
+ 00:56:09 up 16 min,  1 user,  load average: 0.91, 1.93, 1.36
+Thu Nov 12 00:52:17 2026
+
+### Recursos
+$ nproc; free -h; df -h /
+12
+               total        used        free      shared  buff/cache   available
+Mem:            11Gi       595Mi        10Gi       3.5Mi       493Mi        11Gi
+Swap:          2.0Gi          0B       2.0Gi
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sdd       1007G  1.7G  954G   1% /

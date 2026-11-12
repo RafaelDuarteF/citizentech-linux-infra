@@ -1,0 +1,216 @@
+
+### systemctl status citizentech-network.service
+$ systemctl status citizentech-network.service --no-pager -n 5
+● citizentech-network.service - CitizenTech - Rede interna de servicos (ct0 10.77.0.10/24)
+     Loaded: loaded (/etc/systemd/system/citizentech-network.service; enabled; preset: enabled)
+     Active: active (exited) since Thu 2026-11-12 00:52:22 -03; 3min 47s ago
+   Main PID: 1435 (code=exited, status=0/SUCCESS)
+        CPU: 45ms
+
+Nov 12 00:52:22 citizentech-srv systemd[1]: Starting citizentech-network.service - CitizenTech - Rede interna de servicos (ct0 10.77.0.10/24)...
+Nov 12 00:52:22 citizentech-srv ct-network.sh[1435]: [INFO] Interface ct0 (dummy) criada
+Nov 12 00:52:22 citizentech-srv ct-network.sh[1435]: [ OK ] Interface ct0 ativa com IP 10.77.0.10/24
+Nov 12 00:52:22 citizentech-srv systemd[1]: Finished citizentech-network.service - CitizenTech - Rede interna de servicos (ct0 10.77.0.10/24).
+
+### systemctl status citizentech-app.service
+$ systemctl status citizentech-app.service --no-pager -n 5
+● citizentech-app.service - CitizenTech - Aplicacao Web (citizentech-app, runtime python)
+     Loaded: loaded (/etc/systemd/system/citizentech-app.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2026-11-12 00:53:03 -03; 3min 6s ago
+    Process: 3506 ExecStartPre=/opt/citizentech/bin/service-event.sh start citizentech-app.service (code=exited, status=0/SUCCESS)
+   Main PID: 3538 (gunicorn)
+      Tasks: 3 (limit: 14341)
+     Memory: 43.2M (peak: 43.9M)
+        CPU: 749ms
+     CGroup: /system.slice/citizentech-app.service
+             ├─3538 /opt/citizentech/venv/bin/python3 /opt/citizentech/venv/bin/gunicorn --workers 2 --bind 10.77.0.10:8000 --timeout 30 --access-logfile /var/log/citizentech/app/access.log --error-logfile - --capture-output app:app
+             ├─3539 /opt/citizentech/venv/bin/python3 /opt/citizentech/venv/bin/gunicorn --workers 2 --bind 10.77.0.10:8000 --timeout 30 --access-logfile /var/log/citizentech/app/access.log --error-logfile - --capture-output app:app
+             └─3540 /opt/citizentech/venv/bin/python3 /opt/citizentech/venv/bin/gunicorn --workers 2 --bind 10.77.0.10:8000 --timeout 30 --access-logfile /var/log/citizentech/app/access.log --error-logfile - --capture-output app:app
+
+Nov 12 00:53:03 citizentech-srv citizentech-app[3538]: [2026-11-12 00:53:03 -0300] [3538] [INFO] Starting gunicorn 23.0.0
+Nov 12 00:53:03 citizentech-srv citizentech-app[3538]: [2026-11-12 00:53:03 -0300] [3538] [INFO] Listening at: http://10.77.0.10:8000 (3538)
+Nov 12 00:53:03 citizentech-srv citizentech-app[3538]: [2026-11-12 00:53:03 -0300] [3538] [INFO] Using worker: sync
+Nov 12 00:53:03 citizentech-srv citizentech-app[3539]: [2026-11-12 00:53:03 -0300] [3539] [INFO] Booting worker with pid: 3539
+Nov 12 00:53:03 citizentech-srv citizentech-app[3540]: [2026-11-12 00:53:03 -0300] [3540] [INFO] Booting worker with pid: 3540
+
+### systemctl status nginx.service
+$ systemctl status nginx.service --no-pager -n 5
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled; preset: enabled)
+    Drop-In: /etc/systemd/system/nginx.service.d
+             └─10-citizentech.conf
+     Active: active (running) since Thu 2026-11-12 00:52:14 -03; 3min 56s ago
+       Docs: man:nginx(8)
+   Main PID: 273 (nginx)
+      Tasks: 13 (limit: 14341)
+     Memory: 10.7M (peak: 21.7M)
+        CPU: 227ms
+     CGroup: /system.slice/nginx.service
+             ├─ 273 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+             ├─2226 "nginx: worker process"
+             ├─2228 "nginx: worker process"
+             ├─2229 "nginx: worker process"
+             ├─2230 "nginx: worker process"
+             ├─2232 "nginx: worker process"
+             ├─2233 "nginx: worker process"
+             ├─2234 "nginx: worker process"
+             ├─2236 "nginx: worker process"
+             ├─2238 "nginx: worker process"
+             ├─2239 "nginx: worker process"
+             ├─2241 "nginx: worker process"
+             └─2242 "nginx: worker process"
+
+Nov 12 00:52:21 citizentech-srv nginx[935]: 2026/11/12 00:52:21 [notice] 935#935: signal process started
+Nov 12 00:52:21 citizentech-srv systemd[1]: Reloaded nginx.service - A high performance web server and a reverse proxy server.
+Nov 12 00:52:33 citizentech-srv systemd[1]: Reloading nginx.service - A high performance web server and a reverse proxy server...
+Nov 12 00:52:33 citizentech-srv nginx[2225]: 2026/11/12 00:52:33 [notice] 2225#2225: signal process started
+Nov 12 00:52:33 citizentech-srv systemd[1]: Reloaded nginx.service - A high performance web server and a reverse proxy server.
+
+### systemctl status citizentech-monitor.service
+$ systemctl status citizentech-monitor.service --no-pager -n 5
+● citizentech-monitor.service - CitizenTech - Monitoramento de CPU, memoria e disco
+     Loaded: loaded (/etc/systemd/system/citizentech-monitor.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2026-11-12 00:56:08 -03; 1s ago
+    Process: 5400 ExecStartPre=/opt/citizentech/bin/service-event.sh start citizentech-monitor.service (code=exited, status=0/SUCCESS)
+   Main PID: 5432 (bash)
+      Tasks: 2 (limit: 14341)
+     Memory: 2.0M (peak: 7.1M)
+        CPU: 262ms
+     CGroup: /system.slice/citizentech-monitor.service
+             ├─5432 bash /opt/citizentech/bin/monitor.sh --daemon
+             └─5653 sleep 15
+
+Nov 12 00:56:08 citizentech-srv systemd[1]: Starting citizentech-monitor.service - CitizenTech - Monitoramento de CPU, memoria e disco...
+Nov 12 00:56:08 citizentech-srv citizentech-monitor[5400]: [WARN] RECUPERACAO: citizentech-monitor.service sendo reiniciado após falha (result=signal status=KILL) | reinícios automáticos: 0
+Nov 12 00:56:08 citizentech-srv systemd[1]: Started citizentech-monitor.service - CitizenTech - Monitoramento de CPU, memoria e disco.
+Nov 12 00:56:08 citizentech-srv citizentech-monitor[5432]: [INFO] Monitor iniciado em modo serviço (pid=5432, intervalo=15s, limites CPU=70/90% MEM=75/90% DISCO=80/90%)
+Nov 12 00:56:09 citizentech-srv citizentech-monitor[5432]: check=#1 status=OK cpu=3% mem=5% (11366MB livres) disco[/]=1% load=0.91 app=UP
+
+### systemctl status citizentech-healthcheck.timer
+$ systemctl status citizentech-healthcheck.timer --no-pager -n 5
+● citizentech-healthcheck.timer - CitizenTech - Agenda do watchdog (a cada 30s)
+     Loaded: loaded (/etc/systemd/system/citizentech-healthcheck.timer; enabled; preset: enabled)
+     Active: active (waiting) since Thu 2026-11-12 00:52:35 -03; 3min 34s ago
+    Trigger: Thu 2026-11-12 00:56:39 -03; 29s left
+   Triggers: ● citizentech-healthcheck.service
+
+Nov 12 00:52:35 citizentech-srv systemd[1]: Started citizentech-healthcheck.timer - CitizenTech - Agenda do watchdog (a cada 30s).
+
+### systemctl status citizentech-healthcheck.service
+$ systemctl status citizentech-healthcheck.service --no-pager -n 5
+○ citizentech-healthcheck.service - CitizenTech - Watchdog (verifica e recupera servicos)
+     Loaded: loaded (/etc/systemd/system/citizentech-healthcheck.service; static)
+     Active: inactive (dead) since Thu 2026-11-12 00:56:09 -03; 790ms ago
+TriggeredBy: ● citizentech-healthcheck.timer
+    Process: 5485 ExecStart=/opt/citizentech/bin/healthcheck.sh (code=exited, status=0/SUCCESS)
+   Main PID: 5485 (code=exited, status=0/SUCCESS)
+        CPU: 50ms
+
+Nov 12 00:56:09 citizentech-srv systemd[1]: Starting citizentech-healthcheck.service - CitizenTech - Watchdog (verifica e recupera servicos)...
+Nov 12 00:56:09 citizentech-srv systemd[1]: citizentech-healthcheck.service: Deactivated successfully.
+Nov 12 00:56:09 citizentech-srv systemd[1]: Finished citizentech-healthcheck.service - CitizenTech - Watchdog (verifica e recupera servicos).
+
+### Habilitados no boot
+$ systemctl is-enabled citizentech-network citizentech-app nginx citizentech-monitor citizentech-healthcheck.timer
+enabled
+enabled
+enabled
+enabled
+enabled
+
+### Timers
+$ systemctl list-timers citizentech-* --no-pager
+NEXT                        LEFT LAST                           PASSED UNIT                          ACTIVATES
+Thu 2026-11-12 00:56:39 -03  29s Thu 2026-11-12 00:56:09 -03 892ms ago citizentech-healthcheck.timer citizentech-healthcheck.service
+
+1 timers listed.
+Pass --all to see loaded but inactive timers, too.
+
+### Unit do monitor
+$ systemctl cat citizentech-monitor.service
+# /etc/systemd/system/citizentech-monitor.service
+# =============================================================================
+# CitizenTech - Serviço de monitoramento (CPU, memória RAM, disco e aplicação)
+# Template: os campos delimitados por '@' são preenchidos por 03-provision-monitoring.sh
+#
+# Tolerância a falhas em 3 camadas:
+#   1. Restart=always      -> se o processo morrer (crash, kill -9), o systemd
+#                             reinicia em 5s
+#   2. StartLimitBurst     -> se entrar em loop de falhas (5 em 2 min), o
+#                             systemd para de tentar e marca 'failed'
+#   3. Watchdog (timer)    -> citizentech-healthcheck.timer detecta o serviço
+#                             parado/failed/travado e o recupera
+# =============================================================================
+[Unit]
+Description=CitizenTech - Monitoramento de CPU, memoria e disco
+After=network.target citizentech-network.service
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStartPre=-+/opt/citizentech/bin/service-event.sh start %n
+ExecStart=/opt/citizentech/bin/monitor.sh --daemon
+ExecStopPost=-+/opt/citizentech/bin/service-event.sh stop %n
+Restart=always
+RestartSec=5
+TimeoutStopSec=15
+# Prioridade reduzida: o monitor não deve competir com a aplicação
+Nice=10
+SyslogIdentifier=citizentech-monitor
+
+# Endurecimento de segurança
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelModules=yes
+ReadWritePaths=/var/log/citizentech /var/lib/citizentech/state
+
+[Install]
+WantedBy=multi-user.target
+
+### Unit da aplicação
+$ systemctl cat citizentech-app.service
+# /etc/systemd/system/citizentech-app.service
+# =============================================================================
+# CitizenTech - Aplicação Web
+# Template: os campos delimitados por '@' são preenchidos por 02-provision-app.sh
+# =============================================================================
+[Unit]
+Description=CitizenTech - Aplicacao Web (citizentech-app, runtime python)
+Requires=citizentech-network.service
+After=network.target citizentech-network.service
+# Tolerância a falhas: até 10 reinícios em 2 minutos antes de desistir
+# (depois disso o watchdog citizentech-healthcheck.timer assume a recuperação)
+StartLimitIntervalSec=120
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=citizentech
+Group=citizentech
+WorkingDirectory=/opt/citizentech/app
+EnvironmentFile=/etc/citizentech/app.env
+# '-+' = executa como root e nunca impede o serviço de subir
+ExecStartPre=-+/opt/citizentech/bin/service-event.sh start %n
+ExecStart=/opt/citizentech/venv/bin/gunicorn --workers 2 --bind 10.77.0.10:8000 --timeout 30 --access-logfile /var/log/citizentech/app/access.log --error-logfile - --capture-output app:app
+ExecStopPost=-+/opt/citizentech/bin/service-event.sh stop %n
+Restart=always
+RestartSec=3
+TimeoutStopSec=20
+UMask=0027
+SyslogIdentifier=citizentech-app
+
+# Endurecimento de segurança (sandbox do systemd)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ReadWritePaths=/var/lib/citizentech/db /var/lib/citizentech/home /var/log/citizentech/app
+
+[Install]
+WantedBy=multi-user.target

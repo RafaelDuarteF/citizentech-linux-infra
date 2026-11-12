@@ -1,0 +1,14 @@
+# =============================================================================
+# CitizenTech - Agenda do watchdog (execução periódica)
+# =============================================================================
+[Unit]
+Description=CitizenTech - Agenda do watchdog (a cada @HEALTHCHECK_EVERY@)
+
+[Timer]
+OnBootSec=45s
+OnUnitActiveSec=@HEALTHCHECK_EVERY@
+AccuracySec=1s
+Unit=citizentech-healthcheck.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,13 @@
+# =============================================================================
+# CitizenTech - Watchdog: verifica os serviços e recupera falhas
+# Disparado periodicamente por citizentech-healthcheck.timer
+# =============================================================================
+[Unit]
+Description=CitizenTech - Watchdog (verifica e recupera servicos)
+After=citizentech-network.service
+
+[Service]
+Type=oneshot
+ExecStart=@CT_HOME@/bin/healthcheck.sh
+TimeoutStartSec=120
+SyslogIdentifier=citizentech-healthcheck

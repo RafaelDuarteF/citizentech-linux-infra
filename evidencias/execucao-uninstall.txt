@@ -1,0 +1,12 @@
+
+==> Parando e removendo serviços
+[INFO] removido: citizentech-healthcheck.timer
+[INFO] removido: citizentech-healthcheck.service
+[INFO] removido: citizentech-monitor.service
+[INFO] removido: citizentech-app.service
+[INFO] removido: citizentech-network.service
+
+==> Removendo Nginx site, sudoers, atalhos e configuração
+
+==> Removendo dados, logs e usuários
+[ OK ] Ambiente CitizenTech removido. Para recriar: sudo ./install.sh

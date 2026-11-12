@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CitizenTech - Zeladoria Cidadã</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="wrap">
+      <p class="marca">CitizenTech</p>
+      <h1>Zeladoria Cidadã</h1>
+      <p class="sub">Registre problemas do seu bairro e acompanhe a solução.</p>
+    </div>
+  </header>
+
+  <main id="conteudo" class="wrap">
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% if msgs %}
+        <div class="avisos" role="status" aria-live="polite">
+          {% for cat, msg in msgs %}<p class="aviso {{ cat }}">{{ msg }}</p>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <section aria-labelledby="t-resumo">
+      <h2 id="t-resumo">Resumo</h2>
+      <ul class="cards">
+        <li><span class="num">{{ stats.total }}</span> ocorrências</li>
+        <li><span class="num">{{ stats.aberta }}</span> abertas</li>
+        <li><span class="num">{{ stats.andamento }}</span> em andamento</li>
+        <li><span class="num">{{ stats.resolvida }}</span> resolvidas</li>
+      </ul>
+    </section>
+
+    <section id="registrar" aria-labelledby="t-form">
+      <h2 id="t-form">Registrar um problema</h2>
+      <form method="post" action="{{ url_for('criar_form') }}" class="form">
+        <label for="categoria">Tipo de problema</label>
+        <select id="categoria" name="categoria" required>
+          {% for chave, nome in categorias.items() %}<option value="{{ chave }}">{{ nome }}</option>{% endfor %}
+        </select>
+
+        <label for="bairro">Bairro</label>
+        <input id="bairro" name="bairro" required minlength="2" maxlength="500" autocomplete="off">
+
+        <label for="endereco">Endereço ou ponto de referência</label>
+        <input id="endereco" name="endereco" required minlength="5" maxlength="500" autocomplete="off">
+
+        <label for="descricao">O que está acontecendo?</label>
+        <textarea id="descricao" name="descricao" rows="3" required minlength="10" maxlength="500"></textarea>
+
+        <p class="dica">Não informe nome, telefone ou outros dados pessoais.</p>
+        <button type="submit">Enviar ocorrência</button>
+      </form>
+    </section>
+
+    <section aria-labelledby="t-lista">
+      <h2 id="t-lista">Ocorrências do bairro</h2>
+      <nav class="filtros" aria-label="Filtrar por situação">
+        <a href="{{ url_for('index') }}" {% if not filtro %}aria-current="page"{% endif %}>Todas</a>
+        {% for chave, nome in status.items() %}
+          <a href="{{ url_for('index', status=chave) }}" {% if filtro == chave %}aria-current="page"{% endif %}>{{ nome }}</a>
+        {% endfor %}
+      </nav>
+      <ul class="lista">
+        {% for o in ocorrencias %}
+          <li class="item">
+            <div class="linha">
+              <strong>#{{ o.id }} · {{ categorias.get(o.categoria, o.categoria) }}</strong>
+              <span class="status s-{{ o.status }}">{{ status.get(o.status, o.status) }}</span>
+            </div>
+            <p class="local">{{ o.bairro }} — {{ o.endereco }}</p>
+            <p>{{ o.descricao }}</p>
+            <div class="linha">
+              <small>Registrada em {{ o.criada_em | data_br }}</small>
+              {% if o.status != 'resolvida' %}
+                <form method="post" action="{{ url_for('avancar', oid=o.id) }}">
+                  <button class="sec" type="submit">Avançar situação</button>
+                </form>
+              {% endif %}
+            </div>
+          </li>
+        {% else %}
+          <li class="item">Nenhuma ocorrência nesta situação.</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <p>Servidor <strong>{{ host }}</strong> · ambiente <strong>{{ env }}</strong> · versão {{ version }}</p>
+      <p>Dados simulados para fins acadêmicos · FIAP Global Solution 2026 · <a href="/api/info">/api/info</a> · <a href="/health">/health</a></p>
+    </div>
+  </footer>
+</body>
+</html>

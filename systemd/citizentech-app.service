@@ -1,0 +1,41 @@
+# =============================================================================
+# CitizenTech - Aplicação Web
+# Template: os campos delimitados por '@' são preenchidos por 02-provision-app.sh
+# =============================================================================
+[Unit]
+Description=CitizenTech - Aplicacao Web (@APP_NAME@, runtime @APP_RUNTIME@)
+Requires=citizentech-network.service
+After=network.target citizentech-network.service
+# Tolerância a falhas: até 10 reinícios em 2 minutos antes de desistir
+# (depois disso o watchdog citizentech-healthcheck.timer assume a recuperação)
+StartLimitIntervalSec=120
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=@CT_APP_USER@
+Group=@CT_APP_USER@
+WorkingDirectory=@APP_WORKDIR@
+EnvironmentFile=@CT_ETC@/app.env
+# '-+' = executa como root e nunca impede o serviço de subir
+ExecStartPre=-+@CT_HOME@/bin/service-event.sh start %n
+ExecStart=@APP_EXEC@
+ExecStopPost=-+@CT_HOME@/bin/service-event.sh stop %n
+Restart=always
+RestartSec=3
+TimeoutStopSec=20
+UMask=0027
+SyslogIdentifier=citizentech-app
+
+# Endurecimento de segurança (sandbox do systemd)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ReadWritePaths=@CT_DATA@/db @CT_DATA@/home @CT_LOG_DIR@/app
+
+[Install]
+WantedBy=multi-user.target

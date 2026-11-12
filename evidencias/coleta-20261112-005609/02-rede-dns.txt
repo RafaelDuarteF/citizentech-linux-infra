@@ -1,0 +1,71 @@
+
+### Interfaces e IPs
+$ ip -br addr
+lo               UNKNOWN        127.0.0.1/8 10.255.255.254/32 ::1/128 
+eth0             UP             172.30.23.68/20 fe80::215:5dff:fe71:35f9/64 
+ct0              UNKNOWN        10.77.0.10/24 fe80::80e7:9dff:fe2e:39e3/64 
+
+### Interface de serviço
+$ ip addr show dev ct0
+6: ct0: <BROADCAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/ether 82:e7:9d:2e:39:e3 brd ff:ff:ff:ff:ff:ff
+    inet 10.77.0.10/24 scope global ct0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::80e7:9dff:fe2e:39e3/64 scope link 
+       valid_lft forever preferred_lft forever
+
+### Rotas
+$ ip route
+default via 172.30.16.1 dev eth0 proto kernel 
+10.77.0.0/24 dev ct0 proto kernel scope link src 10.77.0.10 
+172.30.16.0/20 dev eth0 proto kernel scope link src 172.30.23.68 
+
+### /etc/hosts (bloco gerenciado)
+$ sed -n '/BEGIN CITIZENTECH/,/END CITIZENTECH/p' /etc/hosts
+# BEGIN CITIZENTECH (gerenciado por citizentech-linux-infra - não editar)
+127.0.1.1    citizentech-srv citizentech-srv.citizentech.local
+127.0.0.1    citizentech.local www.citizentech.local
+10.77.0.10   app.citizentech.local api.citizentech.local
+# END CITIZENTECH
+
+### DNS configurado
+$ cat /etc/resolv.conf; ls -l /etc/resolv.conf
+# CitizenTech - DNS gerenciado por 01-provision-infra.sh (WSL generateResolvConf=false)
+nameserver 1.1.1.1
+nameserver 8.8.8.8
+search citizentech.local
+options timeout:2 attempts:2
+-rw-r--r-- 1 root root 180 Nov 12 00:52 /etc/resolv.conf
+
+### wsl.conf (somente WSL)
+$ cat /etc/wsl.conf 2>/dev/null || echo 'não é WSL'
+[boot]
+systemd=true
+
+[network]
+generateHosts = false
+hostname = citizentech-srv
+generateResolvConf = false
+
+### Resolução de nomes local
+$ getent hosts citizentech.local app.citizentech.local citizentech-srv
+127.0.0.1       citizentech.local www.citizentech.local
+10.77.0.10      app.citizentech.local api.citizentech.local
+127.0.1.1       citizentech-srv citizentech-srv.citizentech.local
+
+### Resolução externa
+$ getent ahostsv4 github.com | head -3; dig +short @1.1.1.1 github.com
+4.228.31.150    STREAM github.com
+4.228.31.150    DGRAM  
+4.228.31.150    RAW    
+4.228.31.150
+
+### Portas em escuta
+$ ss -ltnp | grep -E ':80 |:8000 '
+LISTEN 0      511           0.0.0.0:80        0.0.0.0:*    users:(("nginx",pid=2242,fd=7),("nginx",pid=2241,fd=7),("nginx",pid=2239,fd=7),("nginx",pid=2238,fd=7),("nginx",pid=2236,fd=7),("nginx",pid=2234,fd=7),("nginx",pid=2233,fd=7),("nginx",pid=2232,fd=7),("nginx",pid=2230,fd=7),("nginx",pid=2229,fd=7),("nginx",pid=2228,fd=7),("nginx",pid=2226,fd=7),("nginx",pid=273,fd=7))
+LISTEN 0      2048       10.77.0.10:8000      0.0.0.0:*    users:(("gunicorn",pid=3540,fd=6),("gunicorn",pid=3539,fd=6),("gunicorn",pid=3538,fd=6))                                                                                                                                                                                                                                      
+LISTEN 0      511              [::]:80           [::]:*    users:(("nginx",pid=2242,fd=8),("nginx",pid=2241,fd=8),("nginx",pid=2239,fd=8),("nginx",pid=2238,fd=8),("nginx",pid=2236,fd=8),("nginx",pid=2234,fd=8),("nginx",pid=2233,fd=8),("nginx",pid=2232,fd=8),("nginx",pid=2230,fd=8),("nginx",pid=2229,fd=8),("nginx",pid=2228,fd=8),("nginx",pid=2226,fd=8),("nginx",pid=273,fd=8))
+
+### Firewall
+$ ufw status verbose 2>/dev/null || echo 'ufw não utilizado neste ambiente'
+ufw não utilizado neste ambiente

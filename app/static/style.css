@@ -1,0 +1,37 @@
+/* CitizenTech - estilos com foco em legibilidade e acessibilidade */
+:root {
+  --verde: #0b5d3b; --verde-esc: #073d27; --fundo: #f6f7f4; --texto: #1b1f1d;
+  --borda: #c9cfc9; --aberta: #9a3412; --andamento: #1e40af; --resolvida: #166534;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font: 18px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--texto); background: var(--fundo); }
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+.skip { position: absolute; left: -999px; } .skip:focus { left: 8px; top: 8px; background: #fff; padding: 8px; z-index: 9; }
+.topo { background: var(--verde); color: #fff; padding: 28px 0 24px; }
+.marca { margin: 0; letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; opacity: .85; }
+h1 { margin: 4px 0; font-size: 2rem; } .sub { margin: 0; font-size: 1.1rem; }
+h2 { font-size: 1.35rem; margin: 32px 0 12px; }
+.cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.cards li { background: #fff; border: 1px solid var(--borda); border-radius: 10px; padding: 14px; }
+.num { display: block; font-size: 1.9rem; font-weight: 700; color: var(--verde); }
+.form { background: #fff; border: 1px solid var(--borda); border-radius: 10px; padding: 18px; display: grid; gap: 6px; }
+label { font-weight: 600; margin-top: 8px; }
+input, select, textarea { font: inherit; padding: 10px 12px; border: 2px solid var(--borda); border-radius: 8px; width: 100%; }
+input:focus, select:focus, textarea:focus, button:focus, a:focus { outline: 3px solid #f59e0b; outline-offset: 2px; }
+button { font: inherit; font-weight: 700; background: var(--verde); color: #fff; border: 0; border-radius: 8px; padding: 12px 18px; cursor: pointer; margin-top: 10px; }
+button:hover { background: var(--verde-esc); }
+button.sec { background: #fff; color: var(--verde); border: 2px solid var(--verde); padding: 6px 12px; margin: 0; font-size: .9rem; }
+.dica { font-size: .9rem; color: #4b5563; margin: 6px 0 0; }
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.filtros a { padding: 6px 14px; border: 2px solid var(--verde); border-radius: 999px; color: var(--verde); text-decoration: none; font-weight: 600; }
+.filtros a[aria-current="page"] { background: var(--verde); color: #fff; }
+.lista { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.item { background: #fff; border: 1px solid var(--borda); border-radius: 10px; padding: 14px 16px; }
+.item p { margin: 6px 0; } .local { color: #374151; font-weight: 600; }
+.linha { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.status { font-size: .85rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: #fff; }
+.s-aberta { background: var(--aberta); } .s-andamento { background: var(--andamento); } .s-resolvida { background: var(--resolvida); }
+.aviso { padding: 12px 14px; border-radius: 8px; font-weight: 600; margin: 16px 0 0; }
+.aviso.ok { background: #dcfce7; color: #14532d; } .aviso.erro { background: #fee2e2; color: #7f1d1d; }
+.rodape { margin-top: 40px; padding: 18px 0; background: #e5e9e4; font-size: .9rem; }
+.rodape a { color: var(--verde-esc); }

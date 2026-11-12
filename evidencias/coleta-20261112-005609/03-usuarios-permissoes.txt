@@ -1,0 +1,74 @@
+
+### Usuários do projeto
+$ id citizentech; id ctops; getent passwd citizentech ctops
+uid=999(citizentech) gid=988(citizentech) groups=988(citizentech)
+uid=1000(ctops) gid=1000(ctops) groups=1000(ctops),989(citizentech-ops)
+citizentech:x:999:988:CitizenTech - servico da aplicacao:/var/lib/citizentech/home:/usr/sbin/nologin
+ctops:x:1000:1000:CitizenTech - operador:/home/ctops:/bin/bash
+
+### Grupo de operadores
+$ getent group citizentech-ops
+citizentech-ops:x:989:ctops
+
+### Regras sudo
+$ cat /etc/sudoers.d/citizentech; sudo -l -U ctops
+# CitizenTech - gerado por 01-provision-infra.sh em 2026-11-12T00:52:22-0300
+# Operadores podem administrar somente os serviços do projeto, sem senha.
+Cmnd_Alias CT_SERVICES = /usr/bin/systemctl start citizentech-*, \
+                         /usr/bin/systemctl stop citizentech-*, \
+                         /usr/bin/systemctl restart citizentech-*, \
+                         /usr/bin/systemctl status citizentech-*, \
+                         /usr/bin/systemctl restart nginx, \
+                         /usr/bin/journalctl -u citizentech-*, \
+                         /opt/citizentech/bin/monitor.sh, /opt/citizentech/bin/healthcheck.sh
+%citizentech-ops ALL=(root) NOPASSWD: CT_SERVICES
+Matching Defaults entries for ctops on citizentech-srv:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
+
+User ctops may run the following commands on citizentech-srv:
+    (root) NOPASSWD: /usr/bin/systemctl start citizentech-*, /usr/bin/systemctl stop citizentech-*, /usr/bin/systemctl restart citizentech-*, /usr/bin/systemctl status citizentech-*, /usr/bin/systemctl restart nginx, /usr/bin/journalctl -u citizentech-*, /opt/citizentech/bin/monitor.sh, /opt/citizentech/bin/healthcheck.sh
+
+### Permissões dos diretórios
+$ stat -c '%A %U:%G %n' /opt/citizentech /opt/citizentech/app /opt/citizentech/bin /etc/citizentech /etc/citizentech/* /var/lib/citizentech /var/lib/citizentech/db /var/log/citizentech /var/log/citizentech/app
+drwxr-xr-x root:root /opt/citizentech
+drwxr-x--- root:citizentech /opt/citizentech/app
+drwxr-xr-x root:root /opt/citizentech/bin
+drwxr-x--- root:citizentech-ops /etc/citizentech
+-rw------- root:root /etc/citizentech/app.env
+-rw-r----- root:citizentech-ops /etc/citizentech/citizentech.conf
+drwxr-xr-x root:root /var/lib/citizentech
+drwxr-x--- citizentech:citizentech /var/lib/citizentech/db
+drwxr-s--x root:citizentech-ops /var/log/citizentech
+drwxr-s--- citizentech:citizentech-ops /var/log/citizentech/app
+
+### Variáveis de ambiente da app
+$ sed -E 's/^(SECRET_KEY=).*/\1********/' /etc/citizentech/app.env
+# CitizenTech - variáveis de ambiente da aplicação
+# Gerado por 02-provision-app.sh em 2026-11-12T00:52:23-0300. Contém segredo: permissão 600 (root).
+APP_NAME=citizentech-app
+APP_ENV=production
+APP_HOST=10.77.0.10
+APP_PORT=8000
+HOST=10.77.0.10
+PORT=8000
+DATABASE_PATH=/var/lib/citizentech/db/citizentech.db
+LOG_DIR=/var/log/citizentech/app
+SECRET_KEY=********
+TZ=America/Sao_Paulo
+HOME=/var/lib/citizentech/home
+PYTHONUNBUFFERED=1
+NODE_ENV=production
+ASPNETCORE_URLS=http://10.77.0.10:8000
+ASPNETCORE_ENVIRONMENT=Production
+DOTNET_CLI_TELEMETRY_OPTOUT=1
+DOTNET_NOLOGO=1
+
+### Variáveis de shell
+$ cat /etc/profile.d/citizentech.sh
+# CitizenTech - variáveis de ambiente (gerado por 01-provision-infra.sh)
+export CITIZENTECH_HOME="/opt/citizentech"
+export CITIZENTECH_ETC="/etc/citizentech"
+export CITIZENTECH_LOGS="/var/log/citizentech"
+export CITIZENTECH_URL="http://citizentech.local"
+case ":$PATH:" in *":/opt/citizentech/bin:"*) ;; *) export PATH="$PATH:/opt/citizentech/bin" ;; esac
+alias ct-logs='sudo tail -n 20 -F /var/log/citizentech/{audit,alerts,errors,monitor,healthcheck,service-events}.log'
