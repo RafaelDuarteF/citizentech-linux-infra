@@ -28,21 +28,25 @@ Também incluídos (execução de referência em WSL2 / Ubuntu 24.04, provisiona
 - `testes-de-falha.txt` – saída completa de `fault-tests.sh all` + `crash-loop` (8/8 aprovados)
 - `prints/03-app-navegador.png` – aplicação aberta no navegador do Windows (`http://localhost/`)
 
-## Capturas de tela (a equipe deve adicionar em `evidencias/prints/`)
+## Capturas de tela (`evidencias/prints/`)
 
-| # | Arquivo sugerido | O que capturar |
-|---|---|---|
-| 1 | `01-install.png` | final do `sudo ./install.sh` com "47/47 verificações aprovadas" |
-| 2 | `02-rede-dns.png` | `hostname`, `ip -br addr`, `getent hosts citizentech.local app.citizentech.local` |
-| 3 | `03-app-navegador.png` | aplicação aberta no navegador (`http://localhost/` ou IP da VM) |
-| 4 | `04-app-api.png` | `curl -s http://citizentech.local/api/info \| jq` |
-| 5 | `05-monitor.png` | `sudo ct-monitor` |
-| 6 | `06-servicos.png` | `systemctl status citizentech-monitor citizentech-app --no-pager` e `systemctl list-timers 'citizentech-*'` |
-| 7 | `07-kill-monitor.png` | `sudo ./scripts/fault-tests.sh kill-monitor` |
-| 8 | `08-stop-monitor.png` | `sudo ./scripts/fault-tests.sh stop-monitor` |
-| 9 | `09-kill-app.png` | `sudo ./scripts/fault-tests.sh kill-app` (+ página "Estamos voltando em instantes" no navegador) |
-| 10 | `10-cpu-stress.png` | `sudo ./scripts/fault-tests.sh cpu-stress` com os alertas |
-| 11 | `11-mem-stress.png` | `sudo ./scripts/fault-tests.sh mem-stress` |
-| 12 | `12-script-error.png` | `sudo ./scripts/fault-tests.sh script-error` |
-| 13 | `13-reboot.png` | `sudo ./scripts/fault-tests.sh reboot-check` após reiniciar |
-| 14 | `14-logs.png` | `sudo tail -n 8 /var/log/citizentech/{audit,alerts,errors,service-events}.log` |
+Capturadas da gravação do [vídeo de demonstração](https://youtu.be/RKiHxaTRDfY), na distribuição
+WSL `CitizenTech` (Ubuntu 24.04), em resolução original.
+
+| Arquivo | O que comprova |
+|---|---|
+| [`00-ambiente-configuracao.png`](prints/00-ambiente-configuracao.png) | Ubuntu 24.04 e a configuração central (`config/citizentech.conf`): hostname, IP de serviço, DNS, runtime e limites |
+| [`01-install-execucao.png`](prints/01-install-execucao.png) | `sudo ./install.sh` em execução: pré-requisitos, pacotes, usuários, sudoers e diretórios |
+| [`01-install-validacao-47-47.png`](prints/01-install-validacao-47-47.png) | Validação automática: **47/47 verificações aprovadas** |
+| [`02-rede-ip-dns.png`](prints/02-rede-ip-dns.png) | Hostname `citizentech-srv`, interface `ct0` com `10.77.0.10/24`, resolução local e servidores DNS |
+| [`03-app-navegador.png`](prints/03-app-navegador.png) | Aplicação Zeladoria Cidadã aberta no navegador do Windows (`http://localhost/`) |
+| [`04-app-api-variaveis.png`](prints/04-app-api-variaveis.png) | `/api/info`: variáveis de ambiente carregadas pelo systemd (segredo não exposto) |
+| [`05-monitor-recursos.png`](prints/05-monitor-recursos.png) | Painel `sudo ct-monitor`: CPU, memória, disco e saúde da aplicação |
+| [`06-servicos-systemd-timer.png`](prints/06-servicos-systemd-timer.png) | `citizentech-monitor.service` ativo/habilitado e o timer do watchdog |
+| [`07-teste-kill-monitor.png`](prints/07-teste-kill-monitor.png) | Monitor morto com `kill -9` e reiniciado pelo systemd (FALHA → RECUPERAÇÃO no log) |
+| [`08-teste-stop-monitor-watchdog.png`](prints/08-teste-stop-monitor-watchdog.png) | Parada manual detectada e recuperada pelo watchdog |
+| [`09-teste-kill-app.png`](prints/09-teste-kill-app.png) | Aplicação derrubada: HTTP 502 por ~4s e volta ao HTTP 200 |
+| [`10-cpu-stress-alerta-critico.png`](prints/10-cpu-stress-alerta-critico.png) | CPU a 100%: alerta **CRIT** com os processos responsáveis |
+| [`10-cpu-stress-resolvido.png`](prints/10-cpu-stress-resolvido.png) | Alertas registrados em `alerts.log` e o **RESOLVIDO** após o estresse |
+| [`12-logs-auditoria.png`](prints/12-logs-auditoria.png) | `audit.log`, `alerts.log` e `service-events.log` |
+| [`13-reboot-check.png`](prints/13-reboot-check.png) | Após reiniciar a distro: todas as units habilitadas e ativas, eventos de BOOT registrados |

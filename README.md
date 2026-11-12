@@ -25,7 +25,7 @@ sudo ./install.sh          # provisiona tudo e valida (47 verificações automá
 | Rafael Gaspar Bragança Martins | RM557228 |
 | Luiz Gustavo da Silva | RM558358 |
 
-> **Vídeo de demonstração (até 7 min):** _cole aqui o link do YouTube_
+> **Vídeo de demonstração (6m45s):** https://youtu.be/RKiHxaTRDfY
 
 ---
 
