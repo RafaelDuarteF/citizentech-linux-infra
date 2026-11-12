@@ -19,11 +19,11 @@ sudo ./install.sh          # provisiona tudo e valida (47 verificações automá
 
 | Nome completo | RM |
 |---|---|
-| _Nome do integrante 1_ | RM00000 |
-| _Nome do integrante 2_ | RM00000 |
-| _Nome do integrante 3_ | RM00000 |
-| _Nome do integrante 4_ | RM00000 |
-| _Nome do integrante 5_ | RM00000 |
+| Vinicius Monteiro Araújo | RM555088 |
+| Guilherme Almeida | RM555180 |
+| Rafael Duarte de Freitas | RM558644 |
+| Rafael Gaspar Bragança Martins | RM557228 |
+| Luiz Gustavo da Silva | RM558358 |
 
 > **Vídeo de demonstração (até 7 min):** _cole aqui o link do YouTube_
 
